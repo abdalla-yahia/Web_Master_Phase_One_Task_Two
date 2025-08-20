@@ -2,12 +2,12 @@ const AllProducts = document.querySelector(".products");
 const allfavorites = document.querySelector(".favorites");
 const totalPrice = document.querySelector(".total .totalPrice")
 
-let proudectInCart = localStorage.getItem("proudectInCart")
-let Products_In_Cart = localStorage.getItem("proudectInCart") ? JSON.parse(localStorage.getItem("proudectInCart")) : [];
+let ProductsInCart = localStorage.getItem("ProductsInCart")
+let Products_In_Cart = localStorage.getItem("ProductsInCart") ? JSON.parse(localStorage.getItem("ProductsInCart")) : [];
 
-let total = localStorage.getItem("totalPrice") ? + (localStorage.getItem("totalPrice")) : 0;
+let total = localStorage.getItem("totalPrice") ? +(localStorage.getItem("totalPrice")) : 0;
 let quantity = 1;
-
+console.log(total)
 
 //Fetch Products Data From DB File
 const Fetch_Products_From_DB = async () => {
@@ -23,7 +23,7 @@ const Fetch_Products_From_DB = async () => {
 // Draw Product Card
 const Product_Card =async (products)=> {
   AllProducts.innerHTML = products.map((item) => {
-    let quantity = +(localStorage.getItem(`quantity-${item.id}`)) || 1;
+    let quantity = +(localStorage.getItem(`quantity-${item.id}`));
 
     return `
         <div id="product-${item.id}" class="product-item mb-4 p-4 w-full md:w-1/3 lg:w-1/4 xl:w-1/5">
@@ -56,22 +56,21 @@ const Product_Card =async (products)=> {
   }).join('');
 }
 // Check if there are products in the cart To Draw Them in Cart Page
-proudectInCart && Product_Card(JSON.parse(proudectInCart));
+ProductsInCart && Product_Card(JSON.parse(ProductsInCart));
 
 // Draw Total Price
 if (Products_In_Cart) {
+  total =0;
   Products_In_Cart.map(product => total += +(+product.salePrice * +(localStorage.getItem(`quantity-${product.id}`))));
   totalPrice.innerHTML = total;
 }
 // Remove Product From Cart Function
 const Remove_Product_From_cart= (id)=> {
   let itemIndex = Products_In_Cart.findIndex((item) => item.id === id);
-  let quantityElement = document.getElementById(`quantity-${id}`);
-  let quantity = +(quantityElement.innerHTML);
 
   if (itemIndex !== -1) {
     Products_In_Cart.splice(itemIndex, 1);
-    localStorage.setItem("proudectInCart", JSON.stringify(Products_In_Cart));
+    localStorage.setItem("ProductsInCart", JSON.stringify(Products_In_Cart));
 
     total = 0;
     let productItem = document.getElementById(`product-${id}`);
@@ -79,6 +78,8 @@ const Remove_Product_From_cart= (id)=> {
       productItem.remove();
     }
     Products_In_Cart.forEach((item) => {
+      let quantityElement = document.getElementById(`quantity-${id}`);
+      let quantity = +(quantityElement.innerHTML);
       total += +item.salePrice * quantity;
 
     });
@@ -121,8 +122,7 @@ const Favorite_Products = async _ => {
   const Products_DB = await Fetch_Products_From_DB();
   let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
-  let pro = [];
-  let indicators = '';
+  let Products = [];
   let slideContent = '';
   const itemsPerSlide = 3;
 
@@ -150,24 +150,19 @@ const Favorite_Products = async _ => {
       `;
 
       if ((i + 1) % itemsPerSlide === 0 || i === favorites.length - 1) {
-        pro.push(`
-          <div class="carousel-item ${pro.length === 0 ? 'active' : ''}">
+        Products.push(`
+          <div class="carousel-item ${Products.length === 0 ? 'active' : ''}">
             <div class="row">${slideContent}</div>
           </div>
         `);
-
-        indicators += `<li data-target="#carouselExampleIndicators" data-slide-to="${pro.length - 1}" class="${pro.length === 0 ? 'active' : ''}"></li>`;
-
         slideContent = '';
       }
     }
   }
 
   const carouselInner = document.querySelector('.carousel-inner');
-  carouselInner.innerHTML = pro.join('');
+  carouselInner.innerHTML = Products.join('');
 
-  let carouselIndicators = document.querySelector('.carousel-indicators');
-  carouselIndicators.innerHTML = indicators;
 }
 Favorite_Products();
 // Remove From Favorites Function

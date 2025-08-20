@@ -7,15 +7,15 @@ const shoppingCartIcon                = document.querySelector (".shoppingCart" 
 const cartsProudect                   = document.querySelector (".cartsProudect"           );
 const search                          = document.getElementById("search"                   );
 const Search_Target                   = document.getElementById("Search_Target"            );
-let Cart_Preview                      = document.querySelector (".Cart_Preview"              );
+let Cart_Preview                      = document.querySelector (".Cart_Preview"            );
 let productscontainer                 = document.querySelector (".Products_container"      );
 
 // Initialize Products and total from localStorage
 let total = localStorage.getItem("totalPrice")
   ? +localStorage.getItem("totalPrice")
   : 0;
-let Products_In_Cart = localStorage.getItem("proudectInCart")
-  ? JSON.parse(localStorage.getItem("proudectInCart"))
+let Products_In_Cart = localStorage.getItem("ProductsInCart")
+  ? JSON.parse(localStorage.getItem("ProductsInCart"))
   : [];
 // Initialize Search Variables
 let Search_By = "title";
@@ -56,7 +56,7 @@ const Product_Card = async () => {
              <div class="pt-3 w-full"> 
                 <img class="product-item-img card-img-top m-auto" src="./${item.imageURL}" alt="Card image" style="width:80%; height:${heightImage};"> 
                 <div class="product-itm-desc card-body pb-0 pl-4"> 
-                <p class="card-title">Product: <span class="text-2xl text-orange-500">${item.title}</span></p> 
+                <p class="card-title"><span class="text-2xl text-orange-500">${item.title}</span></p> 
                 <p class="card-text">Category :${item.category}.</p> 
                 <div class="color w-full  flex justify-start items-center gap-2">Color: <p class="w-[12px] h-[12px] rounded-full" style="background:${item.color}"></p></div> 
                 <p class="card-price">Price: <span> <del>${item.price} EGP</del> <span class="text-lg text-green-500">${item.salePrice} EGP</span></span></p> 
@@ -76,8 +76,11 @@ Product_Card();
 // Draw Shoping Cart Items Function
 const Shoping_Cart_Items = (item) => {
   if (!document.getElementById(`Cart_Preview_Item-${item.id}`)) {
-    let quantity = +localStorage.getItem(`quantity-${item.id}`) || 1;
-
+    let quantity = +localStorage.getItem(`quantity-${item.id}`);
+      if(!quantity){
+        localStorage.setItem(`quantity-${item.id}`,1)
+        quantity = +1
+      }
     Cart_Preview.innerHTML += `<div id="Cart_Preview_Item-${item.id}" class="row my-2 pr-2 w-full flex flex-nowrap">
         <span class="col-6 ">${item.title}</span>
         <span class="col-2 text-3xl font-bold text-orange-500" id="quantity-${item.id}">${quantity}</span>
@@ -101,7 +104,7 @@ if (Products_In_Cart) {
   });
   totalPrice.innerHTML = total + " EGP";
 
-  if (Products_In_Cart.length != 0) {
+  if (Products_In_Cart.length > 0) {
     badge.style.display = "block";
     badge.innerHTML = Products_In_Cart.length;
   } else {
@@ -111,7 +114,43 @@ if (Products_In_Cart) {
 //*********************** */
 //*****Actions Function****/
 //*********************** */
+// Remove Product From Cart Function
+const Remove_Product_From_Cart_Preview = (id) => {
+  let itemIndex = Products_In_Cart.findIndex((item) => item.id === id);
 
+  if (itemIndex !== -1) {
+    Products_In_Cart.splice(itemIndex, 1);
+    localStorage.setItem("ProductsInCart", JSON.stringify(Products_In_Cart));
+
+    total = 0;
+    document.getElementById(`add-btn-${id}`).style.display = "inline-block";
+    document.getElementById(`remove-btn-${id}`).style.display = "none";
+
+    let Cart_Preview_Item = document.getElementById(`Cart_Preview_Item-${id}`);
+    if (Cart_Preview_Item) {
+      Cart_Preview_Item.remove();
+      localStorage.removeItem(`quantity-${id}`)
+    }
+    
+    Products_In_Cart.forEach((item) => {
+      let quantityElement = document.getElementById(`quantity-${item.id}`);
+      let quantity = +quantityElement.innerHTML;
+      Shoping_Cart_Items(item);
+      total += (+item.salePrice * quantity);
+    });
+
+    totalPrice.innerHTML = total + " EGP";
+    localStorage.setItem("totalPrice", +total);
+
+    if (Products_In_Cart.length > 0) {
+      badge.style.display = "block";
+      badge.innerHTML = Products_In_Cart.length;
+    } else {
+      badge.style.display = "none";
+      cartsProudect.style.display = "none"
+    }
+  }
+};
 // Increase and Decrease Product Quantity Functions
 const Increase_Product_Quantity = (id, salePrice) => {
   let quantityElement = document.getElementById(`quantity-${id}`);
@@ -119,7 +158,7 @@ const Increase_Product_Quantity = (id, salePrice) => {
 
   quantity++;
   quantityElement.innerHTML = quantity;
-  localStorage.setItem(`quantity-${id}`, quantity.toString());
+  localStorage.setItem(`quantity-${id}`, +quantity);
   total += +salePrice;
   totalPrice.innerHTML = total + " EGP";
   localStorage.setItem("totalPrice", JSON.stringify(total));
@@ -129,53 +168,19 @@ const Decrease_Product_Quantity = (id, salePrice) => {
   let quantityElement = document.getElementById(`quantity-${id}`);
   let quantity = +quantityElement.innerHTML;
 
-  if (quantity >= 1) {
+  if (quantity > 1) {
     quantity--;
     quantityElement.innerHTML = quantity;
-    localStorage.setItem(`quantity-${id}`, quantity.toString());
+    localStorage.setItem(`quantity-${id}`, +quantity);
     total -= +salePrice;
     totalPrice.innerHTML = total + " EGP";
     localStorage.setItem("totalPrice", JSON.stringify(total));
   } else {
-    Remove_Product_From_Cart(id);
+    Remove_Product_From_Cart_Preview(id);
   }
   openCart();
 };
-// Remove Product From Cart Function
-const Remove_Product_From_Cart_Preview = (id) => {
-  let itemIndex = Products_In_Cart.findIndex((item) => item.id === id);
-  let quantityElement = document.getElementById(`quantity-${id}`);
-  let quantity = +quantityElement.innerHTML;
 
-  if (itemIndex !== -1) {
-    Products_In_Cart.splice(itemIndex, 1);
-    localStorage.setItem("proudectInCart", JSON.stringify(Products_In_Cart));
-
-    total = 0;
-    document.getElementById(`add-btn-${id}`).style.display = "inline-block";
-    document.getElementById(`remove-btn-${id}`).style.display = "none";
-
-    let Cart_Preview_Item = document.getElementById(`buyProudectItem-${id}`);
-    if (Cart_Preview_Item) {
-      Cart_Preview_Item.remove();
-    }
-
-    Products_In_Cart.forEach((item) => {
-      Shoping_Cart_Items(item);
-      total += +item.salePrice * quantity;
-    });
-
-    totalPrice.innerHTML = total + " EGP";
-    localStorage.setItem("totalPrice", JSON.stringify(total));
-
-    if (Products_In_Cart.length !== 0) {
-      badge.style.display = "block";
-      badge.innerHTML = Products_In_Cart.length;
-    } else {
-      badge.style.display = "none";
-    }
-  }
-};
 // Add Product To Cart Function
 const Add_Product_To_Cart = (id) => {
   if (localStorage.getItem("userName")) {
@@ -185,7 +190,7 @@ const Add_Product_To_Cart = (id) => {
       Shoping_Cart_Items(choosenItem);
 
       Products_In_Cart = [...Products_In_Cart, choosenItem];
-      localStorage.setItem("proudectInCart", JSON.stringify(Products_In_Cart));
+      localStorage.setItem("ProductsInCart", JSON.stringify(Products_In_Cart));
 
       let quantity = localStorage.getItem(`quantity-${choosenItem.id}`)
         ? +localStorage.getItem(`quantity-${choosenItem.id}`)
@@ -307,19 +312,7 @@ const Search_For_Product = (value) => {
     let isFavorite = checkFavorite(item.id);
 
     let heartIconClass = isFavorite ? "fas" : "far";
-    let heightImage;
-    switch (item.category) {
-      case "phone":
-        heightImage = "330px";
-        break;
-
-      case "smart watch":
-        heightImage = "240px";
-        break;
-      default:
-        heightImage = "200px";
-        break;
-    }
+    let heightImage='200px'
 
     return `
             <div class="product-item mb-4 p-4 w-full md:w-1/3 lg:w-1/4 xl:w-1/5"> 
