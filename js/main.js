@@ -7,8 +7,9 @@ const shoppingCartIcon                = document.querySelector (".shoppingCart" 
 const cartsProudect                   = document.querySelector (".cartsProudect"           );
 const search                          = document.getElementById("search"                   );
 const Search_Target                   = document.getElementById("Search_Target"            );
-let Cart_Preview                        = document.querySelector (".Cart_Preview"              );
+let Cart_Preview                      = document.querySelector (".Cart_Preview"              );
 let productscontainer                 = document.querySelector (".Products_container"      );
+
 // Initialize Products and total from localStorage
 let total = localStorage.getItem("totalPrice")
   ? +localStorage.getItem("totalPrice")
@@ -48,12 +49,7 @@ const Product_Card = async () => {
       const isFavorite = checkFavorite(item.id);
       const heartIconClass = isFavorite ? "fas" : "far";
 
-      const heightImage =
-        item.category === "phone"
-          ? "200px"
-          : item.category === "smart watch"
-          ? "200px"
-          : "200px";
+      const heightImage = "200px"
 
       return `
             <div class="product-item mb-4 p-4 w-full md:w-1/3 lg:w-1/4 xl:w-1/5"> 
@@ -66,7 +62,7 @@ const Product_Card = async () => {
                 <p class="card-price">Price: <span> <del>${item.price} EGP</del> <span class="text-lg text-green-500">${item.salePrice} EGP</span></span></p> 
                 </div> <div class="product-item-action d-flex justify-content-between pr-4 pl-4"> 
                 <button id="add-btn-${item.id}" class="AddToCart btn btn-success mb-2" onClick="Add_Product_To_Cart(${item.id})">Add To Cart</button> 
-                <button id="remove-btn-${item.id}" class="Remove_Product_From_Cart btn btn-danger mb-2 hidden" onClick="Remove_Product_From_Cart(${item.id})">Remove From Cart</button> 
+                <button id="remove-btn-${item.id}" class="Remove_Product_From_Cart btn btn-danger mb-2 hidden" onClick="Remove_Product_From_Cart_Preview(${item.id})">Remove From Cart</button> 
                 <i id="fav-${item.id}" class="${heartIconClass} fa-heart text-green-500" onClick="AddToFaveroites(${item.id})"></i> 
                 </div> 
               </div> 
@@ -82,11 +78,11 @@ const Shoping_Cart_Items = (item) => {
   if (!document.getElementById(`Cart_Preview_Item-${item.id}`)) {
     let quantity = +localStorage.getItem(`quantity-${item.id}`) || 1;
 
-    Cart_Preview.innerHTML += `<div id="Cart_Preview_Item-${item.id}" class="row my-2 pr-2">
-        <span class="col-6">${item.title}</span>
-        <span class="col-2" id="quantity-${item.id}">${quantity}</span>
-        <span class="text-danger Decrease_Product_Quantity col-2" onClick="Decrease_Product_Quantity(${item.id},${item.salePrice})">-</span>
-        <span class="text-success Increase_Product_Quantity col-2" onClick="Increase_Product_Quantity(${item.id},${item.salePrice})">+</span>
+    Cart_Preview.innerHTML += `<div id="Cart_Preview_Item-${item.id}" class="row my-2 pr-2 w-full flex flex-nowrap">
+        <span class="col-6 ">${item.title}</span>
+        <span class="col-2 text-3xl font-bold text-orange-500" id="quantity-${item.id}">${quantity}</span>
+        <button class="text-danger Decrease_Product_Quantity p-2 px-3 bg-gray-200 hover:bg-gray-400 rounded-lg font-bold text-lg" onClick="Decrease_Product_Quantity(${item.id},${item.salePrice})">-</button>
+        <button class="text-success Increase_Product_Quantity p-2 px-3 bg-gray-200 hover:bg-gray-400 rounded-lg font-bold text-lg" onClick="Increase_Product_Quantity(${item.id},${item.salePrice})">+</button>
       </div>`;
   }
 };
@@ -103,7 +99,7 @@ if (Products_In_Cart) {
 
     total += +item.salePrice * +localStorage.getItem(`quantity-${item.id}`);
   });
-  totalPrice.innerHTML = total / 2 + " EGP";
+  totalPrice.innerHTML = total + " EGP";
 
   if (Products_In_Cart.length != 0) {
     badge.style.display = "block";
@@ -130,10 +126,10 @@ const Increase_Product_Quantity = (id, salePrice) => {
   openCart();
 };
 const Decrease_Product_Quantity = (id, salePrice) => {
-  const quantityElement = document.getElementById(`quantity-${id}`);
-  const quantity = +quantityElement.innerHTML;
+  let quantityElement = document.getElementById(`quantity-${id}`);
+  let quantity = +quantityElement.innerHTML;
 
-  if (quantity > 1) {
+  if (quantity >= 1) {
     quantity--;
     quantityElement.innerHTML = quantity;
     localStorage.setItem(`quantity-${id}`, quantity.toString());
@@ -146,9 +142,9 @@ const Decrease_Product_Quantity = (id, salePrice) => {
   openCart();
 };
 // Remove Product From Cart Function
-const Remove_Product_From_Cart = (id) => {
-  const itemIndex = Products_In_Cart.findIndex((item) => item.id === id);
-  const quantityElement = document.getElementById(`quantity-${id}`);
+const Remove_Product_From_Cart_Preview = (id) => {
+  let itemIndex = Products_In_Cart.findIndex((item) => item.id === id);
+  let quantityElement = document.getElementById(`quantity-${id}`);
   let quantity = +quantityElement.innerHTML;
 
   if (itemIndex !== -1) {
@@ -337,7 +333,7 @@ const Search_For_Product = (value) => {
                     </div>
                     <div class="product-item-action d-flex justify-content-between pr-4 pl-4">
                     <button id="add-btn-${item.id}" class="AddToCart btn btn-success mb-2" onClick="Add_Product_To_Cart(${item.id})">Add To Cart</button>
-                    <button id="remove-btn-${item.id}" class="Remove_Product_From_Cart btn btn-danger mb-2 hidden" onClick="Remove_Product_From_Cart(${item.id})">Remove From Cart</button>
+                    <button id="remove-btn-${item.id}" class="Remove_Product_From_Cart btn btn-danger mb-2 hidden" onClick="Remove_Product_From_Cart_Preview(${item.id})">Remove From Cart</button>
                         <i id="fav-${item.id}" class="${heartIconClass} fa-heart" onClick="AddToFaveroites(${item.id})"></i>
                     </div>
                 </div>

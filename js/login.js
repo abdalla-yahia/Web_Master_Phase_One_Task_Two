@@ -1,20 +1,24 @@
-const userName    = document.querySelector("#userName");
-const password    = document.querySelector("#password");
-const signInBtn   = document.querySelector("#signIn");
+const userName    = document.getElementById("userName");
+const email       = document.getElementById("email");
+const password    = document.getElementById("password");
+const signInBtn   = document.getElementById("signIn");
+
+
 const getUserName = localStorage.getItem("userName");
+const getEmail    = localStorage.getItem("email");
 const getPassword = localStorage.getItem("password");
 
 window.onload = function() {
-    userName.focus();
+    email.focus();
   };
 // Login User Event
 signInBtn.addEventListener("click", function (e) {
     e.preventDefault();
 
-    if (userName.value === "" || password.value === "") {
+    if (email.value === "" || password.value === "") {
         alert("Fill Your Data");
     } else {
-        if (getUserName && getUserName.trim() === userName.value.trim() && getPassword && getPassword.trim() === password.value.trim()) {
+        if (getEmail && getEmail.trim() === email.value.trim() && getPassword && getPassword.trim() === password.value.trim()) {
 
             setTimeout(() => {
                 window.location = "../index.html"

@@ -15,11 +15,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-.Our_container {
-  width: 100%;
-  padding: 0 80px;
-}
-/* ------------------------------------------------------------------------------------------------------- */
 
 header {
   position: fixed;
@@ -45,19 +40,9 @@ nav li a {
   margin: 0px 4px;
 }
 
-/* ------------------------------------------------------------------------- */
-
-/* ------------------------- form ------------------------------------------ */
-
 .section-form {
-  /* position: absolute; */
-  /* top: 50%;
-    left: 50%; */
-  /* transform: translate(-50%, -50%); */
-
   width: 50%;
   text-align: center;
-  /* background-color: #0a9e02; */
   padding: 30px;
 }
 
@@ -75,7 +60,6 @@ nav li a {
   border: 1px solid #ddd;
   padding: 5px;
   font-family: cursive;
-  /* input not inherint from body لا يخضع لقوانين البادي*/
   outline: none;
 }
 
@@ -84,7 +68,6 @@ nav li a {
 }
 
 #user {
-  /* color: #fff; */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -116,7 +99,6 @@ nav ul#userInfo li .badge {
   background-color: #fff;
   color: #007bff;
   text-align: center;
-  /* display: block; */
   border-radius: 50%;
   top: -8px;
   right: 16px;
@@ -131,12 +113,10 @@ nav #links li a,
 .ViewPro {
   width: 94%;
 }
-/* bg-light text-primary pr-4 text-center m-auto */
-/* ---------------------------------------------------------------------------------------------------------------- */
-/* --------------------------------- home --------------------------------- */
+
 .Home {
   margin: 5rem auto;
-  padding: 0 3rem;
+  padding: 0 80px;
   position: relative;
 }
 
@@ -153,7 +133,7 @@ nav #links li a,
   width: 300px;
   transform: translate(-105px, 0);
   top: 51px;
-  border: 1px solid #007bff;
+  border: 1px solid #878787;
   display: none;
 }
 
@@ -179,7 +159,7 @@ nav #links li a,
 .buyProudect div {
   background-color: #fff;
   padding: 0.5rem 0rem;
-  color: #007bff;
+  color: #6a6b6c;
   border-radius: 5px;
 }
 

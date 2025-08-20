@@ -1,7 +1,7 @@
-const userName = document.querySelector("#userName")
-const password = document.querySelector("#password")
-const email    = document.querySelector("#email")
-const Register = document.querySelector("#Register")
+const userName = document.getElementById("userName")
+const password = document.getElementById("password")
+const email    = document.getElementById("email")
+const Register = document.getElementById("Register")
 
 //Focus On User Name Field After Page Loaded
 window.onload = function() {

@@ -1,19 +1,28 @@
+const AllProducts = document.querySelector(".products");
+const allfavorites = document.querySelector(".favorites");
+const totalPrice = document.querySelector(".total .totalPrice")
+
 let proudectInCart = localStorage.getItem("proudectInCart")
-let allProducts = document.querySelector(".products");
-let allfavorites = document.querySelector(".favorites");
-let totalPrice = document.querySelector(".total .totalPrice")
 let Products_In_Cart = localStorage.getItem("proudectInCart") ? JSON.parse(localStorage.getItem("proudectInCart")) : [];
-let total = localStorage.getItem("totalPrice") ? +(localStorage.getItem("totalPrice")) : 0;
+
+let total = localStorage.getItem("totalPrice") ? + (localStorage.getItem("totalPrice")) : 0;
 let quantity = 1;
 
 
-if (proudectInCart) {
-  drawProudectCart(JSON.parse(proudectInCart));
-}
-
-function drawProudectCart(products) {
-
-  let y = products.map((item) => {
+//Fetch Products Data From DB File
+const Fetch_Products_From_DB = async () => {
+  try {
+    const res = await fetch("../DB/products_List.json");
+    const data = await res.json();
+    products = data.data;
+    return products;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+};
+// Draw Product Card
+const Product_Card =async (products)=> {
+  AllProducts.innerHTML = products.map((item) => {
     let quantity = +(localStorage.getItem(`quantity-${item.id}`)) || 1;
 
     return `
@@ -44,22 +53,18 @@ function drawProudectCart(products) {
         </div>
       </div>
     `
-  })
-  allProducts.innerHTML = y.join('');
+  }).join('');
 }
+// Check if there are products in the cart To Draw Them in Cart Page
+proudectInCart && Product_Card(JSON.parse(proudectInCart));
 
-// ---------------------------------------------------------------------------------------------
-
-
+// Draw Total Price
 if (Products_In_Cart) {
-  Products_In_Cart.map((item) => {
-    total += +item.salePrice * +(localStorage.getItem(`quantity-${item.id}`));
-  })
-  totalPrice.innerHTML = total / 2;
-
+  Products_In_Cart.map(product => total += +(+product.salePrice * +(localStorage.getItem(`quantity-${product.id}`))));
+  totalPrice.innerHTML = total;
 }
-
-function Remove_Product_From_cart(id) {
+// Remove Product From Cart Function
+const Remove_Product_From_cart= (id)=> {
   let itemIndex = Products_In_Cart.findIndex((item) => item.id === id);
   let quantityElement = document.getElementById(`quantity-${id}`);
   let quantity = +(quantityElement.innerHTML);
@@ -75,19 +80,14 @@ function Remove_Product_From_cart(id) {
     }
     Products_In_Cart.forEach((item) => {
       total += +item.salePrice * quantity;
-      // total += +item.salePrice * +(localStorage.getItem(`quantity-${item.id}`));
 
     });
     totalPrice.innerHTML = total;
     localStorage.setItem("totalPrice", JSON.stringify(total));
   }
 }
-// -----------------------------------------------
-
-// ----------------------------------------------------
-function Increase_Product_Quantity(id, salePrice) {
-  // console.log(item);
-
+// Increase Product Quantity Function
+const Increase_Product_Quantity= (id, salePrice)=> {
   let quantityElement = document.getElementById(`quantity-${id}`);
   let quantity = +(quantityElement.innerHTML);
 
@@ -98,8 +98,9 @@ function Increase_Product_Quantity(id, salePrice) {
   totalPrice.innerHTML = total;
   localStorage.setItem("totalPrice", JSON.stringify(total));
 }
-function Decrease_Product_Quantity(id, salePrice) {
-  // console.log(item);
+// Decrease Product Quantity Function
+const Decrease_Product_Quantity =(id, salePrice)=> {
+  
   let quantityElement = document.getElementById(`quantity-${id}`);
   let quantity = +(quantityElement.innerHTML);
 
@@ -115,23 +116,9 @@ function Decrease_Product_Quantity(id, salePrice) {
     Remove_Product_From_cart(id);
   }
 }
-// -----------------------------------------------------------
-let products = [
-  { id: 1, title: "oppo reno 7", category: "phone", color: "Black", price: "1120", salePrice: "1000", imageURL: "images/1.jpg" },
-  { id: 2, title: "Iphone 14", category: "phone", color: "gray", price: "2120", salePrice: "2000", imageURL: "images/2.jpg" },
-  { id: 3, title: "relme", category: "phone", color: "white", price: "3120", salePrice: "3000", imageURL: "images/3.jpg" },
-  { id: 4, title: "infinx", category: "smart watch", color: "Blue", price: "4120", salePrice: "4000", imageURL: "images/4.jpg" },
-  { id: 5, title: "oppo reno 7", category: "smart watch", color: "Black", price: "1120", salePrice: "1000", imageURL: "images/1.jpg" },
-  { id: 6, title: "Iphone 14", category: "smart watch", color: "gray", price: "2120", salePrice: "2000", imageURL: "images/2.jpg" },
-  { id: 7, title: "relme", category: "Labtob", color: "white", price: "3120", salePrice: "3000", imageURL: "images/3.jpg" },
-  { id: 8, title: "infinx", category: "Labtob", color: "Blue", price: "4120", salePrice: "4000", imageURL: "images/4.jpg" },
-  { id: 9, title: "oppo reno 7", category: "Labtob", color: "Black", price: "1120", salePrice: "1000", imageURL: "images/1.jpg" },
-  { id: 10, title: "Iphone 14", category: "Air pods", color: "gray", price: "2120", salePrice: "2000", imageURL: "images/2.jpg" },
-  { id: 11, title: "relme", category: "Air pods", color: "white", price: "3120", salePrice: "3000", imageURL: "images/3.jpg" },
-  { id: 12, title: "infinx", category: "Air pods", color: "Blue", price: "4120", salePrice: "4000", imageURL: "images/4.jpg" },
-]
-
-function drawFavData() {
+// Drow Products In Favorites Container
+const Favorite_Products = async _ => {
+  const Products_DB = await Fetch_Products_From_DB();
   let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
   let pro = [];
@@ -141,7 +128,7 @@ function drawFavData() {
 
   for (let i = 0; i < favorites.length; i++) {
     const favoriteId = favorites[i];
-    const item = products.find((product) => product.id === favoriteId);
+    const item = Products_DB.find((product) => product.id === favoriteId);
     if (item) {
       const heartIconClass = 'fas';
 
@@ -149,7 +136,7 @@ function drawFavData() {
         <div class="col-4">
           <div class="card border border-info pt-3">
             <img class="product-item-img card-img-top m-auto" src="../${item.imageURL}" alt="Card image" style="width:80%; height: 150px;">
-            <div class="row">
+            <div class="row flex flex-col justify-center items-center">
               <div class="product-itm-desc card-body pb-2 pl-4 col-10">
                 <p class="card-title">Product: ${item.title}.</p>
                 <p class="card-text">Category: ${item.category}.</p>
@@ -179,14 +166,12 @@ function drawFavData() {
   const carouselInner = document.querySelector('.carousel-inner');
   carouselInner.innerHTML = pro.join('');
 
-  const carouselIndicators = document.querySelector('.carousel-indicators');
+  let carouselIndicators = document.querySelector('.carousel-indicators');
   carouselIndicators.innerHTML = indicators;
 }
-
-drawFavData();
-// ------------------------------------------------------------
-
-function removeFromFavorites(id) {
+Favorite_Products();
+// Remove From Favorites Function
+const removeFromFavorites=(id)=>{
   const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
   var heartIcon = document.getElementById(`fav-${id}`);
   heartIcon.classList.remove("fas");
@@ -197,6 +182,6 @@ function removeFromFavorites(id) {
     favorites.splice(index, 1);
   }
   localStorage.setItem('favorites', JSON.stringify(favorites));
-  drawFavData();
+  Favorite_Products();
 
 }
