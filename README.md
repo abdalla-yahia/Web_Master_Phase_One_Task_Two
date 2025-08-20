@@ -44,7 +44,7 @@ Check out the project hosted on **GitHub Pages**:
 ---
 
 ## 📸 Screenshots
-* './images/Web_Master_Task2.png' *
+![Project Screenshot](./images/Web_Master_Task2.png)
 
 ---
 
