@@ -1,20 +1,23 @@
-let userInfo = document.querySelector("#userInfo")
-let user = document.querySelector("#user")
-let links = document.querySelector("#links")
+const User_Information        = document.getElementById("userInfo")
+const User_Name               = document.getElementById("user")
+const Auth_Buttons            = document.getElementById("Auth_Buttons")
+const Log_Out_Button          = document.getElementById("Log-Out")
 
+// Check if user is logged in by checking localStorage
 if (localStorage.getItem("userName")) {
-    links.remove();
-    user.style.display = 'block'
-    userInfo.style.display = "flex";
-    user.innerHTML = "Welcom " + localStorage.getItem("userName");
+    Auth_Buttons.remove();
+    User_Name.style.display = 'block'
+    User_Information.style.display = "flex";
+    User_Name.innerHTML = "Welcom " + localStorage.getItem("userName");
 }
-
-let logOutBtn = document.querySelector("#logOut")
-logOutBtn.addEventListener("click",logOut)
-function logOut() {
- localStorage.clear();
+// Log Out Functionality
+const Log_Out =_=> {
+    localStorage.clear();
     setTimeout(() => {
         window.location = "./index.html"
     }, 500);
 
 }
+
+// Add event listener to Log Out button
+Log_Out_Button.addEventListener("click", Log_Out)
