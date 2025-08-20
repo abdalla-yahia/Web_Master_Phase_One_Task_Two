@@ -201,7 +201,7 @@ const addTOCartEvent= (id)=> {
             badge.style.display = "none";
         }
     } else {
-        window.location = "./Pages/login.html";
+        window.location = "../Pages/login.html";
     }
 }
 
@@ -228,7 +228,7 @@ const AddToFaveroites = (id) => {
             removeFromFavorites(id);
         }
     } else {
-        window.location = "./Pages/login.html";
+        window.location = "../Pages/login.html";
     }
 }
 
