@@ -307,8 +307,8 @@ const searchData=(value)=> {
 
 
         return `
-            <div class="product-item col-4 mb-4 p-4">
-                <div class="card border border-info pt-3">
+            <div class="product-item mb-4 p-4 w-full md:w-1/3 lg:w-1/4 xl:w-1/5"> 
+                <div class="card border border-info pt-3 w-full"> 
                     <img class="product-item-img card-img-top m-auto" src="./${item.imageURL}" alt="Card image" style="width:80%; height:${heightImage};">
                     <div class="product-itm-desc card-body pb-0 pl-4">
                         <p class="card-title">Product: ${item.title}.</p>
