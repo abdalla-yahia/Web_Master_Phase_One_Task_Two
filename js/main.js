@@ -331,7 +331,7 @@ const Search_For_Product = (value) => {
                     <div class="product-item-action d-flex justify-content-between pr-4 pl-4">
                     <button id="add-btn-${item.id}" class="AddToCart btn btn-success mb-2 ${ProductsIdsInCart.includes(item.id) && "hidden"}" onClick="Add_Product_To_Cart(${item.id})">Add To Cart</button>
                     <button id="remove-btn-${item.id}" class="Remove_Product_From_Cart btn btn-danger mb-2 ${!ProductsIdsInCart.includes(item.id) && "hidden"}" onClick="Remove_Product_From_Cart_Preview(${item.id})">Remove From Cart</button>
-                        <i id="fav-${item.id}" class="${heartIconClass} fa-heart" onClick="AddToFaveroites(${item.id})"></i>
+                        <i id="fav-${item.id}" class="${heartIconClass} fa-heart text-green-500" onClick="AddToFaveroites(${item.id})"></i>
                     </div>
                 </div>
             </div>
