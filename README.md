@@ -47,8 +47,7 @@ Check out the project hosted on **GitHub Pages**:
 ![Project Screenshot](./images/Web_Master_Task2.png)
 
 ---
-
-## 👨‍💻 Author
+## 👨‍💻 Contact
 - **Name:** Abdalla Yahia  
 - **GitHub:** [abdalla-yahia](https://github.com/abdalla-yahia)  
 - **LinkedIn:** [linkedin.com/in/abdalla-yahia](https://linkedin.com/in/abdalla-yahia)  
@@ -56,5 +55,8 @@ Check out the project hosted on **GitHub Pages**:
 ---
 
 ## 📜 License
-This project is created for **educational and training purposes**.  
-Feel free to use it for personal learning or practice.
+This project was provided as a **training task** by the **Web Master learning platform**.  
+It was completed for **educational purposes** only, focusing on practicing HTML, CSS, and JavaScript by fixing errors and improving the given template.  
+
+Not intended for commercial use.
+
