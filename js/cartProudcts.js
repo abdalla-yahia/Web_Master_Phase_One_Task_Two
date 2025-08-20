@@ -21,7 +21,7 @@ function drawProudectCart(products) {
         <div class="card border border-info">
           <div class="row">
             <div class="col-md-4">
-              <img class="product-item-img card-img-top ml-3 mt-4" src="/${item.imageURL}" alt="Card image">
+              <img class="product-item-img card-img-top ml-3 mt-4" src="./${item.imageURL}" alt="Card image">
             </div>
             <div class="col-md-8">
               <div class="product-item-desc card-body pb-0">
@@ -147,7 +147,7 @@ function drawFavData() {
       slideContent += `
         <div class="col-4">
           <div class="card border border-info pt-3">
-            <img class="product-item-img card-img-top m-auto" src="/${item.imageURL}" alt="Card image" style="width:80%; height: 150px;">
+            <img class="product-item-img card-img-top m-auto" src="./${item.imageURL}" alt="Card image" style="width:80%; height: 150px;">
             <div class="row">
               <div class="product-itm-desc card-body pb-2 pl-4 col-10">
                 <p class="card-title">Product: ${item.title}.</p>

@@ -14,7 +14,7 @@ logOutBtn.addEventListener("click",logOut)
 function logOut() {
  localStorage.clear();
     setTimeout(() => {
-        window.location = "/index.html"
+        window.location = "./index.html"
     }, 500);
 
 }

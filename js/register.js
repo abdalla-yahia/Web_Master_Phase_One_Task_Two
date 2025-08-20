@@ -19,7 +19,7 @@ Register.addEventListener("click", function(e){
         localStorage.setItem("email" , email.value);
 
         setTimeout(() => {
-            window.location = "/Pages/login.html"
+            window.location = "./Pages/login.html"
         }, 500);
     }  
 })
