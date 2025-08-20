@@ -44,7 +44,7 @@ Check out the project hosted on **GitHub Pages**:
 ---
 
 ## 📸 Screenshots
-![Project Screenshot](./images/Web_Master_Task2.png)
+![Project Screenshot](./images/Web_Master_Task_Two_Screen.png)
 
 ---
 ## 👨‍💻 Contact
