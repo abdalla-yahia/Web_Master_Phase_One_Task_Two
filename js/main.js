@@ -28,6 +28,7 @@ window.addEventListener("offline", () => toggleInternetStatus(false));
 const toggleInternetStatus = (isOnline) => {
   noInternet.style.display = isOnline ? "none" : "block";
 };
+
 //Fetch Products Data From DB File
 const fetchProducts = async () => {
   try {
@@ -43,7 +44,9 @@ const fetchProducts = async () => {
 // Fetch products and draw them on the page
 const Product_Card = async () => {
   const allProducts = await fetchProducts();
-
+  //Check if product Existes In Cart
+  let ProductsIdsInCart = Products_In_Cart.map(element=>  element.id)
+  //Products Containe
   productscontainer.innerHTML = allProducts
     .map((item) => {
       const isFavorite = checkFavorite(item.id);
@@ -61,8 +64,8 @@ const Product_Card = async () => {
                 <div class="color w-full  flex justify-start items-center gap-2">Color: <p class="w-[12px] h-[12px] rounded-full" style="background:${item.color}"></p></div> 
                 <p class="card-price">Price: <span> <del>${item.price} EGP</del> <span class="text-lg text-green-500">${item.salePrice} EGP</span></span></p> 
                 </div> <div class="product-item-action d-flex justify-content-between pr-4 pl-4"> 
-                <button id="add-btn-${item.id}" class="AddToCart btn btn-success mb-2" onClick="Add_Product_To_Cart(${item.id})">Add To Cart</button> 
-                <button id="remove-btn-${item.id}" class="Remove_Product_From_Cart btn btn-danger mb-2 hidden" onClick="Remove_Product_From_Cart_Preview(${item.id})">Remove From Cart</button> 
+                <button id="add-btn-${item.id}" class="AddToCart btn btn-success mb-2 ${ProductsIdsInCart.includes(item.id) && "hidden"}" onClick="Add_Product_To_Cart(${item.id})">Add To Cart</button> 
+                <button id="remove-btn-${item.id}" class="Remove_Product_From_Cart btn btn-danger mb-2 ${!ProductsIdsInCart.includes(item.id) && "hidden"}" onClick="Remove_Product_From_Cart_Preview(${item.id})">Remove From Cart</button> 
                 <i id="fav-${item.id}" class="${heartIconClass} fa-heart text-green-500" onClick="AddToFaveroites(${item.id})"></i> 
                 </div> 
               </div> 
@@ -310,6 +313,7 @@ const Search_For_Product = (value) => {
   });
   let product = filteredProducts.map((item) => {
     let isFavorite = checkFavorite(item.id);
+      let ProductsIdsInCart = Products_In_Cart.map(element=>  element.id)
 
     let heartIconClass = isFavorite ? "fas" : "far";
     let heightImage='200px'
@@ -325,8 +329,8 @@ const Search_For_Product = (value) => {
                         <p class="card-price">Price: <span> <del>${item.price} EGP</del> ${item.salePrice} EGP</span></p>
                     </div>
                     <div class="product-item-action d-flex justify-content-between pr-4 pl-4">
-                    <button id="add-btn-${item.id}" class="AddToCart btn btn-success mb-2" onClick="Add_Product_To_Cart(${item.id})">Add To Cart</button>
-                    <button id="remove-btn-${item.id}" class="Remove_Product_From_Cart btn btn-danger mb-2 hidden" onClick="Remove_Product_From_Cart_Preview(${item.id})">Remove From Cart</button>
+                    <button id="add-btn-${item.id}" class="AddToCart btn btn-success mb-2 ${ProductsIdsInCart.includes(item.id) && "hidden"}" onClick="Add_Product_To_Cart(${item.id})">Add To Cart</button>
+                    <button id="remove-btn-${item.id}" class="Remove_Product_From_Cart btn btn-danger mb-2 ${!ProductsIdsInCart.includes(item.id) && "hidden"}" onClick="Remove_Product_From_Cart_Preview(${item.id})">Remove From Cart</button>
                         <i id="fav-${item.id}" class="${heartIconClass} fa-heart" onClick="AddToFaveroites(${item.id})"></i>
                     </div>
                 </div>
