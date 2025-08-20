@@ -102,8 +102,6 @@ if (Products_In_Cart) {
     removeBtn && (addBtn.style.display = "none");
 
     removeBtn && (removeBtn.style.display = "inline-block");
-
-    total += +item.salePrice * +localStorage.getItem(`quantity-${item.id}`);
   });
   totalPrice.innerHTML = total + " EGP";
 
