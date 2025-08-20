@@ -26,7 +26,7 @@ const toggleInternetStatus = (isOnline) => {
 //Fetch Products Data From DB File
 const fetchProducts = async () => {
   try {
-    const res = await fetch("../DB/products_List.json");
+    const res = await fetch("/DB/products_List.json");
     const data = await res.json();
     products = data.data;
     return products;
@@ -54,7 +54,7 @@ const DrawProduct =  async ()=> {
       return `
                 <div class="product-item mb-4 p-4 w-full md:w-1/3 lg:w-1/4 xl:w-1/5"> 
                 <div class="card border border-info pt-3 w-full"> 
-                <img class="product-item-img card-img-top m-auto" src="${item.imageURL}" alt="Card image" style="width:80%; height:${heightImage};"> 
+                <img class="product-item-img card-img-top m-auto" src="./${item.imageURL}" alt="Card image" style="width:80%; height:${heightImage};"> 
                 <div class="product-itm-desc card-body pb-0 pl-4"> 
                 <p class="card-title">Product: <span class="text-2xl text-orange-500">${item.title}</span></p> 
                 <p class="card-text">Category :${item.category}.</p> 
@@ -309,7 +309,7 @@ const searchData=(value)=> {
         return `
             <div class="product-item col-4 mb-4 p-4">
                 <div class="card border border-info pt-3">
-                    <img class="product-item-img card-img-top m-auto" src="${item.imageURL}" alt="Card image" style="width:80%; height:${heightImage};">
+                    <img class="product-item-img card-img-top m-auto" src="/${item.imageURL}" alt="Card image" style="width:80%; height:${heightImage};">
                     <div class="product-itm-desc card-body pb-0 pl-4">
                         <p class="card-title">Product: ${item.title}.</p>
                         <p class="card-text">Category :${item.category}.</p>
