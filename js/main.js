@@ -207,7 +207,7 @@ const Add_Product_To_Cart = (id) => {
       badge.style.display = "none";
     }
   } else {
-    window.location = "./Pages/login.html";
+    window.location = "..//Pages/login.html";
   }
 };
 
