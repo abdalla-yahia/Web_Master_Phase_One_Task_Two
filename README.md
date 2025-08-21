@@ -3,20 +3,44 @@
 
 This project is a simple **HTML, CSS, and JavaScript** web application, built as part of a practical training task for mastering web development fundamentals.  
 It includes a landing page, internal pages, and dynamic interactions using JavaScript.  
-
+My role in this task was to fix issues, improve responsiveness, and adjust the code structure.
 ---
 
 ## 📂 Project Structure
+```
+📂 Web_Master_Phase_One_Task_Two
+│── 📂 Css
+│ │── 📄 style.css
+│ │── 📄 all.css
+|
+│── 📂 DB
+| │── 📄 products_List.json
+|
+│── 📂 images
+│ │── 🖼️ logo.png
+│ │── 🖼️ banner.jpg
+│ │── 🖼️ product-1.png
+|
+│── 📂 Js
+│ │── 📄 cartProudcts.js
+│ │── 📄 login.js
+│ │── 📄 main.js
+│ │── 📄 register.js
+│ │── 📄 user.js
+│
+│── 📂 Pages
+│ │── 📄 cartProudcts.html
+│ │── 📄 login.html
+│ │── 📄 register.html
+│
+│── 📂 webfonts
+│ │── 🔤 fa-brands-400.eot
+│ │── 🔤 fa-brands-400.ttf
+│ │── 🔤 fa-brands-400.woff
+|
+|│── 📄 index.html
 
-Web_Master_Phase_One_Task_Two/
-│── index.html # Main landing page
-│── Css/ # CSS stylesheets
-│── Js/ # JavaScript files
-│── Pages/ # Internal pages
-│── images/ # Project images
-│── fonts/ # Local fonts
-│── README.md # Project description
-
+```
 
 ---
 
